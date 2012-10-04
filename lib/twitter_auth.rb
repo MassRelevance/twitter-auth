@@ -1,3 +1,5 @@
+require 'twitter_auth/engine'
+
 module TwitterAuth
   class Error < StandardError; end
 
