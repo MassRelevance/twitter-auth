@@ -1,7 +1,7 @@
-Rails.application.routes.draw do
+TwitterAuth::Engine.routes.draw do
   resource :session
-  
-  match '/login', :to => 'sessions#new', :as => :login
-  match '/logout', :to => 'sessions#destroy', :as => :logout
-  match '/oauth_callback', :to => 'sessions#oauth_callback', :as => 'oauth_callback'
+
+  match '/login' => 'sessions#new', :as => :login
+  match '/logout' => 'sessions#destroy', :as => :logout
+  match '/oauth_callback' => 'sessions#oauth_callback', :as => 'oauth_callback'
 end
