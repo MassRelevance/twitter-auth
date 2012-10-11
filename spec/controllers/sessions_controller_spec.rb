@@ -83,10 +83,10 @@ describe SessionsController do
         before do
           @user = Factory.create(:twitter_oauth_user, :twitter_id => '123')
           @time = Time.now
-          @remember_token = ActiveSupport::SecureRandom.hex(10)
+          @remember_token = SecureRandom.hex(10)
           
           Time.stub!(:now).and_return(@time)
-          ActiveSupport::SecureRandom.stub!(:hex).and_return(@remember_token)
+          SecureRandom.stub!(:hex).and_return(@remember_token)
 
           request.session[:request_token] = 'faketoken'
           request.session[:request_token_secret] = 'faketokensecret'

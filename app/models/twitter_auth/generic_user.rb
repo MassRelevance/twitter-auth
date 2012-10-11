@@ -87,7 +87,7 @@ module TwitterAuth
     def remember_me
       return false unless respond_to?(:remember_token)
 
-      self.remember_token = ActiveSupport::SecureRandom.hex(10)
+      self.remember_token = SecureRandom.hex(10)
       self.remember_token_expires_at = Time.now + TwitterAuth.remember_for.days
 
       save

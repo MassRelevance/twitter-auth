@@ -81,7 +81,7 @@ describe TwitterAuth::GenericUser do
     
     describe ' with proper columns' do
       it 'should generate a secure random token' do
-        ActiveSupport::SecureRandom.should_receive(:hex).with(10).and_return('abcdef')
+        SecureRandom.should_receive(:hex).with(10).and_return('abcdef')
         @user.remember_me
         @user.remember_token.should == 'abcdef'
       end
@@ -107,7 +107,7 @@ describe TwitterAuth::GenericUser do
         TwitterAuth.stub!(:remember_for).and_return(10)
         time = Time.now
         Time.stub!(:now).and_return(time)
-        ActiveSupport::SecureRandom.stub!(:hex).and_return('abcdef')
+        SecureRandom.stub!(:hex).and_return('abcdef')
 
         @user.remember_me.should == {:value => 'abcdef', :expires => (Time.now + 10.days)}
       end

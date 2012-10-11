@@ -23,7 +23,7 @@ module TwitterAuth
     end
   
     def self.generate_salt
-      ActiveSupport::SecureRandom.hex(4)
+      SecureRandom.hex(4)
     end
   end
 end
