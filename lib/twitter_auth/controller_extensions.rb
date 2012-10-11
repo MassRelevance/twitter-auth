@@ -34,7 +34,7 @@ module TwitterAuth
       session[:user_id] = new_user.id
       @current_user = new_user
     end
-    
+
     def remember_token=( remember_token )
       cookies[:remember_token] = remember_token
     end
@@ -49,7 +49,7 @@ module TwitterAuth
 
     def access_denied
       store_location
-      redirect_to login_path
+      redirect_to twitter_auth.login_path
     end
 
     def store_location
