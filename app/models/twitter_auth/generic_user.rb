@@ -1,7 +1,7 @@
 module TwitterAuth
   class GenericUser < ActiveRecord::Base
     attr_protected :twitter_id, :remember_token, :remember_token_expires_at
-    
+
     TWITTER_ATTRIBUTES = [
       :name,
       :location,
@@ -18,12 +18,12 @@ module TwitterAuth
       :profile_background_tile,
       :friends_count,
       :statuses_count,
-      :followers_count,      
+      :followers_count,
       :favourites_count,
       :time_zone,
       :utc_offset
     ]
-    
+
     with_options :if => :utilize_default_validations do |v|
       v.validates_presence_of :login, :twitter_id
       v.validates_format_of :login, :with => /\A[a-z0-9_]+\z/i
@@ -32,8 +32,8 @@ module TwitterAuth
       v.validates_uniqueness_of :twitter_id, :message => "ID has already been taken."
       v.validates_uniqueness_of :remember_token, :allow_blank => true
     end
-    
-    def self.table_name; 'users' end
+
+    self.table_name = 'users'
 
     def self.new_from_twitter_hash(hash)
       raise ArgumentError, 'Invalid hash: must include screen_name.' unless hash.key?('screen_name')
@@ -54,7 +54,7 @@ module TwitterAuth
     def self.from_remember_token(token)
       first(:conditions => ["remember_token = ? AND remember_token_expires_at > ?", token, Time.now])
     end
-      
+
     def assign_twitter_attributes(hash)
       TWITTER_ATTRIBUTES.each do |att|
         send("#{att}=", hash[att.to_s]) if respond_to?("#{att}=")
@@ -89,7 +89,7 @@ module TwitterAuth
 
       self.remember_token = ActiveSupport::SecureRandom.hex(10)
       self.remember_token_expires_at = Time.now + TwitterAuth.remember_for.days
-      
+
       save
 
       {:value => self.remember_token, :expires => self.remember_token_expires_at}
