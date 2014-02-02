@@ -9,7 +9,12 @@ class SessionsController < ApplicationController
       session[:request_token_secret] = @request_token.secret
 
       url = @request_token.authorize_url
-      url << "&oauth_callback=#{CGI.escape(TwitterAuth.oauth_callback)}" if TwitterAuth.oauth_callback?
+      if params[:force_login]
+        url << "&oauth_callback=#{CGI.escape(TwitterAuth.oauth_callback)}&force_login=true" if TwitterAuth.oauth_callback?
+      else
+        url << "&oauth_callback=#{CGI.escape(TwitterAuth.oauth_callback)}" if TwitterAuth.oauth_callback?
+      end
+
       redirect_to url
     else
       # we don't have to do anything, it's just a simple form for HTTP basic!
@@ -27,7 +32,7 @@ class SessionsController < ApplicationController
   end
 
   def oauth_callback
-    unless session[:request_token] && session[:request_token_secret] 
+    unless session[:request_token] && session[:request_token_secret]
       authentication_failed('No authentication information was found in the session. Please try again.') and return
     end
 
