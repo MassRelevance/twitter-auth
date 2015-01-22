@@ -1,3 +1,8 @@
+
+# DEPRECATED. Gem has been pulled into tweetriver without referencing this gem.
+
+-------
+
 TwitterAuth
 ===========
 
